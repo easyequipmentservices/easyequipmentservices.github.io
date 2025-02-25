@@ -1,1 +1,40 @@
+* {
+    box-sizing: border-box;
+}
 
+div {
+    border: black 2px solid;
+    background-color: aliceblue;
+}
+
+h3 {
+    color: orange;
+    width: 10%;
+    margin: 10px;
+}
+
+.title {
+    display: flex;
+    border: 0;
+}
+
+p {
+    margin: 10px;
+}
+
+body {
+    background-image: linear-gradient(to right, lightskyblue, white);
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (max-width: 600px) {
+    /* body {
+        background-color: red;
+    } */
+
+    body {
+        background-image: linear-gradient(to bottom, lightskyblue, white);
+        background-repeat: no-repeat;
+    }
+
+}
