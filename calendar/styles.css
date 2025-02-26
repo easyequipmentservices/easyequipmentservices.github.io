@@ -6,6 +6,7 @@
 .box {
     background-color: aliceblue;
     border: black 1px solid;
+    border-radius: 15px;
 }
 
 .time {
