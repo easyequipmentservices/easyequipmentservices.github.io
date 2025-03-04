@@ -24,6 +24,7 @@ body {
 h3 {
     color: black;
     margin: 10px 10px 0 10px;
+    text-decoration: underline;
 }
 
 /* first titles */
@@ -41,12 +42,11 @@ h3 {
 .title {
     display: flex;
     border: 0;
-    text-decoration: underline;
     display: grid;
     justify-items: center;
 }
 
-/* above allows some form of colours and sizes the boxes correctly */
+/* allows some form of colours and sizes the boxes correctly */
 .time {
     background-color: lightgrey;
     border: black 1px solid;
@@ -60,6 +60,25 @@ h3 {
     body {
         background-image: linear-gradient(to bottom, lightskyblue, white);
         background-repeat: no-repeat;
+    }
+
+    .items {
+        width: 45%;
+    }
+
+    .title {
+        display: flex;
+        border: 0;
+        text-decoration: underline;
+        display: grid;
+        justify-items: center;
+    }
+
+    .time {
+        background-color: lightgrey;
+        border: black 1px solid;
+        display: grid;
+        justify-items: center;
     }
 
 }
