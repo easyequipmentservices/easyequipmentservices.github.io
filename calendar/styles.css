@@ -8,12 +8,16 @@ p {
     margin: 10px;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 body {
-    background-image: linear-gradient(to right, lightskyblue, white);
+    background-image: linear-gradient(to bottom, lightskyblue, white);
 }
 /* as well as the above */
 
-/* shows number of items of all items */
+/* ok */
 .box {
     background-color: aliceblue;
     border: black 1px solid;
@@ -46,12 +50,21 @@ h3 {
     justify-items: center;
 }
 
+.expand {
+    font-size: 0;
+}
+
 /* allows some form of colours and sizes the boxes correctly */
 .time {
     background-color: lightgrey;
     border: black 1px solid;
     display: grid;
     justify-items: center;
+}
+
+nav {
+    background-color: navy;
+    width: 100%;
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -80,5 +93,10 @@ h3 {
         display: grid;
         justify-items: center;
     }
+
+    .expand {
+        font-size: 20px;
+    }
+    
 
 }
