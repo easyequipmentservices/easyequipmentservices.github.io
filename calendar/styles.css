@@ -24,7 +24,20 @@ body {
     border-radius: 15px;
 }
 
-/* h3 */
+/* headers */
+
+h1, h2 {
+    font-size: 16px;
+}
+
+h1 {
+    color: white;
+}
+
+h2 {
+    color: #B3B3B3;
+}
+
 h3 {
     color: black;
     margin: 10px 10px 0 10px;
@@ -63,8 +76,14 @@ h3 {
 }
 
 nav {
-    background-color: navy;
+    background-color: #678196;
     width: 100%;
+    overflow: auto;
+}
+
+img {
+    width: 52px;
+    height: 52px;
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
