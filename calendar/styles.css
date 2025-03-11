@@ -2,6 +2,8 @@
 * {
     box-sizing: border-box;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 p {
@@ -17,11 +19,24 @@ body {
 }
 /* as well as the above */
 
-/* ok */
+/* Names and Numbers */
 .box {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.name {
     background-color: aliceblue;
+}
+
+.num, .name {
     border: black 1px solid;
     border-radius: 15px;
+}
+
+.num {
+    background-color: #AED9FC;
+    padding: 5%;
 }
 
 /* headers */
@@ -42,12 +57,6 @@ h3 {
     color: black;
     margin: 10px 10px 0 10px;
     text-decoration: underline;
-}
-
-/* first titles */
-.title1 {
-    display: flex;
-    border: 0;
 }
 
 /* pretty much making sure that those certain items are listed are the correct sizes */
@@ -78,13 +87,37 @@ h3 {
 nav {
     background-color: #678196;
     width: 100%;
+    height: 79px;
     overflow: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2%;
+}
+
+.username {
+    display: block;
+    text-align: right;
+    height: 60px;
+    width: auto;
+    align-content: center;
+}
+
+.position {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 250px;
 }
 
 img {
     width: 52px;
     height: 52px;
 }
+
+/* #logo {
+    margin-left: 2%;
+} */
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (max-width: 600px) {
