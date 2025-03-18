@@ -6,9 +6,9 @@
     padding: 0;
 }
 
-p {
-    margin: 10px;
-}
+    p {
+        margin: 10px;
+    }
 
 ::-webkit-scrollbar {
     display: none;
@@ -19,11 +19,13 @@ body {
 }
 /* as well as the above */
 
-/* Names and Numbers */
+/* Names and Numbers boxes */
 .box {
     display: flex;
     justify-content: flex-start;
     text-align: center;
+    font-size: 20px;
+    justify-content: space-around;
 }
 
 .name {
@@ -82,8 +84,9 @@ h3 {
 }
 
 /* pretty much making sure that those certain items are listed are the correct sizes */
+
 .items {
-    width: 10%;
+    font-size: 18px;
 }
 
 /* this is for the individual titles above the boxes to be aligned correctly */
@@ -94,17 +97,22 @@ h3 {
     justify-items: center;
 }
 
+.individual {
+    border: black 1px solid;
+    width: 190px;
+    text-align: center;
+}
+
 .expand {
     font-size: 0;
 }
 
-/* allows some form of colours and sizes the boxes correctly */
-.time {
-    background-color: lightgrey;
-    border: black 1px solid;
-    display: grid;
-    justify-items: center;
+.orderBoxes {
+    display: flex;
+    align-items: center;
 }
+
+/* allows some form of colours and sizes the boxes correctly */
 
 nav {
     background-color: #678196;
@@ -137,20 +145,12 @@ img {
     height: 52px;
 }
 
-/* #logo {
-    margin-left: 2%;
-} */
-
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (max-width: 600px) {
 
     body {
         background-image: linear-gradient(to bottom, lightskyblue, white);
         background-repeat: no-repeat;
-    }
-
-    .items {
-        width: 45%;
     }
 
     .title {
