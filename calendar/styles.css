@@ -45,10 +45,12 @@ body {
 .colourCoded {
     display: block;
     align-content: center;
+    padding: 5px;
 }
 
 #red, #yellow, #green {
     border: black 1px solid;
+    padding: 5px;
 }
 
 #red {
