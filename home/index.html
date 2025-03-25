@@ -10,12 +10,23 @@
   <body>
     <nav class="topBar">
       <img class="topBarLogo" src="media/logo.png" /><img
-        class="bugerButton"
-        src="media/buhger.png"
+     
       />
       <p class="navBarTextT">{user}</p>
       <p class="navBarTextB">Administrator</p>
-    </nav>
+      <div class="menu">
+          <button class="menu-button">☰</button>
+          <div class="dropdown">
+            <a href="/home/">Home</a>
+            <a href="/booking/  ">Equipment Booking</a>
+            <a href="#">Calendar</a>
+            <a href="#">Accessibility</a>
+            <a href="#">Admin</a>
+            <a href="#">Sign Out</a>
+          </div>
+        </div>
+      </div>
+  </nav>
     <div class="line"></div>
     <div class="Box"><h1>Welcome, {user}</h1><p>You have {x} unread notifications.</p></div>
     <div class="line"></div>
