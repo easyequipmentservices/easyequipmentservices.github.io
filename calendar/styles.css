@@ -86,7 +86,7 @@ h2 {
 
 h3 {
     color: black;
-    margin: 10px 10px 0 10px;
+    margin-top: 10px;
     text-decoration: underline;
 }
 
@@ -97,11 +97,30 @@ h3 {
 }
 
 /* this is for the individual titles above the boxes to be aligned correctly */
+
+.titleNtime {
+    display: grid;
+    grid-template-areas:
+    'header header menu menu'
+    'main main right right'
+    'footer footer right right';
+    align-items: center;
+    justify-items: center;
+}
+
+.time {
+    background-color: lightgrey;
+    border: black 1px solid;
+    display: grid;
+    justify-items: center;
+}
+
 .title {
     display: flex;
     border: 0;
     display: grid;
     justify-items: center;
+    grid-area: header;
 }
 
 .individual {
@@ -112,11 +131,13 @@ h3 {
 
 .expand {
     font-size: 0;
+    grid-area: right;
 }
 
 .orderBoxes {
     display: flex;
     align-items: center;
+    grid-area: main;
 }
 
 /* allows some form of colours and sizes the boxes correctly */
@@ -158,21 +179,6 @@ img {
     body {
         background-image: linear-gradient(to bottom, lightskyblue, white);
         background-repeat: no-repeat;
-    }
-
-    .title {
-        display: flex;
-        border: 0;
-        text-decoration: underline;
-        display: grid;
-        justify-items: center;
-    }
-
-    .time {
-        background-color: lightgrey;
-        border: black 1px solid;
-        display: grid;
-        justify-items: center;
     }
 
     .expand {
