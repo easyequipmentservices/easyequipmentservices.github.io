@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessibility Settings</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #7babeb, #E6ECF0);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+    }
+    .header {
+      width: 100%;
+      background-color: #789;
+      color: #fff;
+      text-align: center;
+      padding: 20px 0;
+      position: relative;
+    }
+    .nav-icon {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      width: 30px;
+      cursor: pointer;
+    }
+    .nav-menu {
+      display: none;
+      position: absolute;
+      top: 40px;
+      right: 10px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .nav-menu a {
+      display: block;
+      padding: 10px 20px;
+      text-decoration: none;
+      color: #333;
+      border-bottom: 1px solid #eee;
+    }
+    .nav-menu a:last-child {
+      border-bottom: none;
+    }
+    .nav-menu a:hover {
+      background-color: #f0f0f0;
+    }
+    .content {
+      width: 90%;
+      max-width: 350px;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .box {
+      border: 1px solid #aaa;
+      padding: 15px;
+      border-radius: 10px;
+      background-color: #D9E2EC;
+      margin-bottom: 20px;
+    }
+    .button-group button {
+      margin: 5px;
+      padding: 8px 20px;
+      border: 1px solid #333;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #fff;
+    }
+    .button-group .active {
+      background-color: #4A90E2;
+      color: #fff;
+    }
+    .theme-button {
+      width: 100%;
+      padding: 10px 0;
+      margin: 5px 0;
+      border-radius: 5px;
+    }
+    .light-btn { background-color: #D3D3D3; }
+    .dark-btn { background-color: #000; color: #fff; }
+    .custom-font-input {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    {user} {Administrator}
+    <div class="nav-icon" onclick="toggleMenu()">☰</div>
+    <div class="nav-menu" id="navMenu">
+      <a href="/home/">Home</a>
+      <a href="/booking/">Equipment Booking</a>
+      <a href="/calendar/">Calendar</a>
+      <a href="/settings/">Accessibility</a>
+      <a href="/admin/">Admin</a>
+      <a href="/">Sign Out</a>
+    </div>
+  </div>
+  <div class="content">
+    <div class="box">
+      <h2>ACCESSIBILITY</h2>
+      <h3>Font Size</h3>
+      <div class="button-group">
+        <button onclick="changeFontSize(14)">Small (14)</button>
+        <button onclick="changeFontSize(20)" class="active">Standard (20)</button>
+        <button onclick="changeFontSize(32)">Large (32)</button>
+      </div>
+      <div class="custom-font-input">
+        <input type="number" id="customSize" placeholder="Enter custom font size" style="width: 70%; padding: 5px;" />
+        <button onclick="applyCustomSize()" style="padding: 5px 10px;">Set</button>
+      </div>
+    </div>
+    <div class="box">
+      <h3>Theme</h3>
+      <button class="theme-button light-btn" onclick="setTheme('light')">Light</button>
+      <button class="theme-button dark-btn" onclick="setTheme('dark')">Dark</button>
+    </div>
+  </div>
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("navMenu");
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    const buttons = document.querySelectorAll(".button-group button");
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        buttons.forEach(btn => btn.classList.remove("active"));
+        button.classList.add("active");
+      });
+    });
+
+    function changeFontSize(size) {
+      document.body.style.fontSize = size + "px";
+    }
+
+    function applyCustomSize() {
+      const input = document.getElementById("customSize");
+      const size = parseInt(input.value);
+      if (!isNaN(size) && size > 0) {
+        document.body.style.fontSize = size + "px";
+        buttons.forEach(btn => btn.classList.remove("active")); // Remove active class from preset buttons
+      } else {
+        alert("Please enter a valid number greater than 0");
+      }
+    }
+
+    function setTheme(theme) {
+      if (theme === 'light') {
+        document.body.style.background = "linear-gradient(to bottom, #7babeb, #E6ECF0)";
+        document.querySelector('.header').style.backgroundColor = "#789";
+        document.getElementById("navMenu").style.backgroundColor = "#fff";
+        document.querySelectorAll(".nav-menu a").forEach(link => {
+          link.style.color = "#333";
+        });
+        document.querySelectorAll(".box").forEach(box => {
+          box.style.backgroundColor = "#D9E2EC";
+          box.style.color = "#000";
+        });
+      } else if (theme === 'dark') {
+        document.body.style.background = "linear-gradient(to bottom, #000410, #223142)";
+        document.querySelector('.header').style.backgroundColor = "#001f3f";
+        document.getElementById("navMenu").style.backgroundColor = "#223142";
+        document.querySelectorAll(".nav-menu a").forEach(link => {
+          link.style.color = "#fff";
+        });
+        document.querySelectorAll(".box").forEach(box => {
+          box.style.backgroundColor = "#2c3e50";
+          box.style.color = "#fff";
+        });
+      }
+    }
+  </script>
+</body>
+</html>
