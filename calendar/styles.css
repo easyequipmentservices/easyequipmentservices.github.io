@@ -28,8 +28,13 @@ body {
     justify-content: space-around;
 }
 
+.name, .num, #green, #yellow, #red, .individual {
+    box-shadow: rgba(0, 0, 0, 0.25) 0 4px 4px;
+}
+
 .name {
     background-color: white;
+    padding: 0 5px 0 5px;
 }
 
 .num, .name {
