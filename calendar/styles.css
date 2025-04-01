@@ -6,9 +6,9 @@
     padding: 0;
 }
 
-    p {
-        margin: 10px;
-    }
+p {
+    margin: 10px;
+}
 
 ::-webkit-scrollbar {
     display: none;
@@ -17,6 +17,7 @@
 body {
     background-image: linear-gradient(to bottom, lightskyblue, white);
 }
+
 /* as well as the above */
 
 /* Names and Numbers boxes */
@@ -24,28 +25,36 @@ body {
     display: flex;
     justify-content: flex-start;
     text-align: center;
-    font-size: 20px;
+    font-size: 15px;
     justify-content: space-around;
 }
 
-.name, .num, #green, #yellow, #red, .individual {
+.name,
+.num,
+#green,
+#yellow,
+#red,
+.individual {
     box-shadow: rgba(0, 0, 0, 0.25) 0 4px 4px;
 }
 
 .name {
     background-color: white;
-    padding: 0 5px 0 5px;
+    padding: 10px;
 }
 
-.num, .name {
+.num,
+.name {
     border: black 1px solid;
     border-radius: 15px;
 }
 
 .num {
     background-color: #AED9FC;
+    margin-top: 10px;
+    margin-bottom: 10px;
     padding: 10px;
-}
+}   
 
 .colourCoded {
     display: block;
@@ -53,7 +62,9 @@ body {
     padding: 5px;
 }
 
-#red, #yellow, #green {
+#red,
+#yellow,
+#green {
     border: black 1px solid;
     padding: 5px;
 }
@@ -72,7 +83,8 @@ body {
 
 /* headers */
 
-h1, h2 {
+h1,
+h2 {
     font-size: 16px;
 }
 
@@ -90,6 +102,55 @@ h3 {
     text-decoration: underline;
 }
 
+.navBarTextT{
+    position: absolute;
+    height: 1vh;
+    line-height: 3vh;
+    top: 2vh;
+    right: 10vh;
+    font-size: 2vh;
+}
+
+.navBarTextB{
+    position: absolute;
+    height: 3vh;
+    line-height: 3vh;
+    top: 5vh;
+    right: 10vh;
+    font-size: 2vh;
+}
+
+.topBar{
+    background-color: rgb(103, 129, 150);
+    height: 10vh;
+    position: sticky;
+}
+
+.topBarLogo{
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    position:sticky;
+    left: 1vh;
+    height: 8vh;
+    width: 8vh;
+}
+
+.centerLogo{
+
+    height: 30vh;
+    margin-left: 15vw;
+    margin-right: 15vw;
+
+}
+
+.bugerButton{
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    position:sticky;
+    left: 99vh;
+    height: 8vh;
+}
+
 /* pretty much making sure that those certain items are listed are the correct sizes */
 
 .items {
@@ -101,9 +162,9 @@ h3 {
 .titleNtime {
     display: grid;
     grid-template-areas:
-    'header header menu menu'
-    'main main right right'
-    'footer footer right right';
+        'header header menu menu'
+        'main main right right'
+        'footer footer right right';
     align-items: center;
     justify-items: center;
 }
@@ -142,55 +203,43 @@ h3 {
 
 /* allows some form of colours and sizes the boxes correctly */
 
-nav {
-    background-color: #678196;
-    width: 100%;
-    height: 79px;
-    overflow: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2%;
-}
-
-.menu{
+.menu {
     position: absolute;
     top: 2vh;
     left: 81.5vw;
-  }
- 
-  .menu-button {
+}
+
+.menu-button {
     background: none;
     border: none;
     color: white;
     font-size: 10vw;
     cursor: pointer;
-  }
- 
-  .dropdown {
+}
+
+.dropdown {
     display: none;
     position: absolute;
     right: 0;
     background-color: #f1f1f1;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     min-width: 200px;
-    z-index: 1;
-  }
- 
-  .dropdown a {
+}
+
+.dropdown a {
     color: black;
     padding: 10px 20px;
     text-decoration: none;
     display: block;
-  }
- 
-  .dropdown a:hover {
+}
+
+.dropdown a:hover {
     background-color: #ddd;
-  }
- 
-  .menu:hover .dropdown {
+}
+
+.menu:hover .dropdown {
     display: block;
-  }
+}
 
 img {
     width: 52px;
@@ -208,6 +257,6 @@ img {
     .expand {
         font-size: 20px;
     }
-    
+
 
 }
