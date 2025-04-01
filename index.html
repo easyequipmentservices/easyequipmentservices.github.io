@@ -1,183 +1,274 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head><script type='text/javascript' >
+const lsijVersion = 1;
+
+
+
+class Flags {
+	constructor(url, terms) {
+		this.url = url;
+		this.matched = {};
+
+		this.terms = [];
+		terms.forEach((term) => {
+			let s = term.replace(/[\]{}?^$().*\\+|[]/g, '\\$&');
+			s = s.replace(/\\\*/g, '.*');
+			s = s.replace(/\\\?/g, '.');
+			let regex = new RegExp('\\b' + s + '\\b', 'gi');
+			this.terms.push({term: term, regex: regex});
+		});
+	}
+
+	report(flags) {
+        console.debug('[LS Filter] flag report');
+		if (!flags.length)
+            return;
+
+		const xhr = new XMLHttpRequest();
+		xhr.open('POST', document.location.origin + '/6187f6b040e7d99f49dd92ba3c971240a2579784b465f564ddb37ab3a9aeddfb/log_flag', true);
+		console.debug('[LS Filter] sending -> ', flags);
+		xhr.send(JSON.stringify({
+			url: this.url.href,
+			flags: flags,
+			at_epoch_ms: Date.now()
+		}));
+	}
+
+	matchTerms(input, flagAll) {
+		const matches = [];
+		this.terms.forEach((term) => {
+			const hits = input.match(term.regex);
+			if (!hits || !hits.length)
+				return;
+
+			let added = false;
+			if (typeof(this.matched[term.term]) === 'undefined')
+				added = true
+
+			let count = hits.length;
+			if (!added)
+				count -= this.matched[term.term];
+
+			this.matched[term.term] = hits.length;
+
+			if (added || flagAll)
+				matches.push([term.term, count]);
+		});
+		return matches;
+	}
+
+	scanIntentValue(value) {
+		const matches = this.matchTerms(value, true);
+		const changes = [];
+		matches.forEach((match) => {
+			match[2] = true; // mark as user entered
+			changes.push(match);
+		});
+
+		if (changes.length)
+			this.report(changes);
+	}
+
+	scanIntentValues(values) {
+		values.forEach((value) => {
+			this.scanIntentValue(value);
+		});
+	}
+
+	scanIntentEvent(event) {
+		switch (event.target.tagName.toLowerCase()) {
+		case 'input':
+			let type = event.target.type || 'text';
+			type = type.toLowerCase();
+
+			// Dont scan password fields
+			if (type === 'password')
+				return;
+			this.scanIntentValue(event.target.value);
+			break;
+		case 'textarea':
+			this.scanIntentValue(event.target.value);
+			break;
+		}
+	}
+
+	scanIntent(event) {
+		if (typeof(gatherIntent) === 'function') {
+			const intent = gatherIntent();
+			if (intent.length)
+				this.scanIntentValues(intent);
+		}
+	}
+
+	onChange(event) {
+		this.scanIntentEvent(event);
+	}
+
+	onKeyup(event) {
+		this.scanIntentEvent(event);
+	}
+
+	bindDOM() {
+		document.addEventListener('change', this.onChange.bind(this));
+		document.addEventListener('keyup', this.onKeyup.bind(this));
+		setInterval(() => {
+			this.scanIntent();
+		}, 1000);
+	}
+}
+
+const initFlagScanning = function(terms) {
+	if (!terms.length)
+		return;
+
+	console.debug('[LS Filter] init flag scanning');
+	const a = document.createElement('A');
+	a.href = window.location.href;
+	const flags = new Flags(a, terms);
+	
+	console.debug('[LS Filter] flagging intent');
+	if (typeof(initGatherIntent) === 'function')
+		initGatherIntent();
+
+	flags.bindDOM();
+	
+};
+
+initFlagScanning(["incel","inspire","iran","tor browser","torbrowser","isis","isil","islamic state","iswap","kill someone","kill myself","join isis","blow up college","vpn","proxy","radicalisation","islamic state west africa province","islamist","islamic jihad union","lashkar e tayyaba","martyr","martyrdom","national action","make a bomb","make bomb","jihadis","beheding","behading","isyf","abdullah azzam brigade","aq","al ghurabah","al mahda","al morhafat","al naba","al-nafeer","al qaeda","al-qaeda","al qa'eda","al qaida","al qa'ida","al-qaida","al zarqawi","ansar al islam","ansar al sharia","antifa","al-fursan","al khansa brigade","al khansaa","al-hikmah","al shabaab","al muhajiroun","al-nusra front","al-qurtoba","anthrax","anti semitism","ansar al din","ansar dine","anwar al awlaki","aqap","atomwaffen division","attack","awlaki","ayman al zawahiri","aryan Strikeforce","azzam brigades","babbar khalsa","base (the)","blackguard","bedab7jeana","beheading","behead","bki","blister agent","blood and Honour","blow up","boko haram","bomb","BNSM","british movement (the)","Bjundabare","c18","combat 18","constantiniyah","cordoba","dabiq","da'esh","daesh","daily stormer","david lane","david laine","dirty bomb","DOR","DOTR","ebaa","execution","feminazi","feuerkrieg division","fgm","generation identity","great replacement","hamas","hate cleric","hate preacher","harakat al-shabaab","harvest of soldiers","Hay’at Tahrir Al-Sham","hezbollah","hizballah","hizb ut tahrir","HTS","Humat al-Tawhid","hundred handers","HuT","ibaa","identitarian movement england","ied","imam shamil battalion","improvised explosive device","jabhat al-nusra","jamaa al islamiyya","jabhat fateh al sham","jihad","jihadist","Jihadi bride","jihadi","jemaah islamiyah","kateeba al kawthar","khalistan","KKK","ku klux klan","lashkar e taiba","national front","national socialist network","national thowfeek jamaath","nazi","neinchan","new british union","ns131","nusra front","ogniwo","one ummah","order of nine angels","O9A","patriotic alternative","qadiani","qisas","rawti shax","rayat al tawheed","rahowa","ricin","Rocket.Chat","rumiyah","russian imperialist movement","sarin","scottish dawn","shabaab khilafah","SRN","system resistance network","shaheed","saoradh","sonnenkrieg division","stormfront","suicide","suicide bomb","suicide bomber","suicide bombing","taghut","takfir","Tghost","Tlgur","tanzim hurras ud-dine","tahrir al-sham","terrorism","terrorist","pergida","tehrik-i-taliban","ugus","vanguard america","VKontake","you only die once","yodo","zarqawi","zawahiri","8chan","9%","12","14 words","88","269","267","311","AWALT","Beta","Betabuxx","Blackpill","Blackops2cel","Braincels","Chad","Cock carousel","Cope","Cuck","Currycel","ER - Elliot Rodger","Fakecel","\"Femoid (\"\"foid\"\")\"","femoid","foid","Fuel","Gymcel","Heightcel","Hypergamy","Incel","incels.me","Inceltears","It's Over","JBW - Just Be White","jbw","jfl - just fucking lol","jfl","KTHHFV","LDAR","Looksmatch","Meeks","Mentalcel","MGTOW","Mogs","Normie","Roastie","Ricecel","Rope","Stacy","Sui","Truecel","Tyrone","Volcel","Wristcel"]);
+
+
+
+function checkCurrentSite(yt, url) {
+  const xhr = new XMLHttpRequest();
+  const body = JSON.stringify({
+    url: url || window.location.href,
+    youtube: yt
+  });
+  console.log('[LS Filter] reporting ->', body);
+  const checkUrl = document.location.origin + '/6187f6b040e7d99f49dd92ba3c971240a2579784b465f564ddb37ab3a9aeddfb/log';
+  xhr.open('POST', checkUrl, true);
+  xhr.send(body);
+  xhr.onreadystatechange = function () {
+    if (this.status === 200 && xhr.responseText) {
+      const score = JSON.parse(xhr.responseText);
+      console.log('[LS Filter] score ->', score.allow);
+      if (score.redirect) {
+        window.location.href = score.redirect;
+        hardBlock();
+      }
+    }
+  };
+}
+
+let hardBlockPolicy;
+function getHardBlockPolicy() {
+  if (typeof(trustedTypes) !== 'undefined' && !hardBlockPolicy) {
+    hardBlockPolicy = trustedTypes.createPolicy('hardBlock', {
+      createHTML: (string) => string
+    });
+  }
+  return hardBlockPolicy;
+}
+
+function hardBlock() {
+  stopVideo();
+  const stopInt = setInterval(stopVideo, 500);
+  setTimeout(() => {
+    const policy = getHardBlockPolicy();
+    if (policy) {
+      document.body.innerHTML = policy.createHTML('<img src="/6187f6b040e7d99f49dd92ba3c971240a2579784b465f564ddb37ab3a9aeddfb/blocked-image-search.png" style="width: 100%; height: 100%">');
+    } else {
+      document.body.innerHTML = '<img src="/6187f6b040e7d99f49dd92ba3c971240a2579784b465f564ddb37ab3a9aeddfb/blocked-image-search.png" style="width: 100%; height: 100%">';
+    }
+    clearInterval(stopInt);
+  }, 3000)
+}
+
+function stopVideo() {
+  const ea = document.getElementsByTagName('video');
+  for (i in ea) {
+    if (typeof(ea[i].pause) !== 'function') {
+      continue;
+    }
+    if (!ea[i].paused) {
+        console.debug('[LS Filter] pause video');
+        ea[i].pause();
+    }
+  }
+}
+
+function googleVideo() {
+  if (window.location.href.match(/google\.com\/search\?/)) {
+    const vidMatcher = /google\.com\/search\?.*vid:([^#\&\?]{11})/;
+    let prevVideo;
+    new MutationObserver(function() {
+      console.log('[LS Filter] MutationObserver');
+      let video;
+      let m = window.location.href.match(vidMatcher)
+      if (m) {
+        video = m[1];
+      }
+      if (video === prevVideo) { return; }           
+      console.log('[LS Filter] scoring video ->', video);
+      prevVideo = video;
+      checkCurrentSite(true, 'https://www.youtube.com/watch?v=' + video);
+    }).observe(document, {subtree: true, childList: true});
+  }
+}
+
+function onLoad() {
+  console.log('[LS Filter] loaded');
+  if (window.top === window.self) {
+    console.log('[LS Filter] top window: ' + window.location.href);
+    googleVideo();
+  }
+}
+
+onLoad();
+
+</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Accessibility Settings</title>
+  <title>Easy Equipment Services</title>
+  <link rel="stylesheet" href="styles.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom, #7babeb, #E6ECF0);
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      height: 100vh;
-    }
-    .header {
-      width: 100%;
-      background-color: #789;
-      color: #fff;
-      text-align: center;
-      padding: 20px 0;
-      position: relative;
-    }
-    .nav-icon {
-      position: absolute;
-      top: 5px;
-      right: 10px;
-      width: 30px;
-      cursor: pointer;
-    }
-    .nav-menu {
-      display: none;
-      position: absolute;
-      top: 40px;
-      right: 10px;
-      background-color: #fff;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-    .nav-menu a {
-      display: block;
-      padding: 10px 20px;
-      text-decoration: none;
-      color: #333;
-      border-bottom: 1px solid #eee;
-    }
-    .nav-menu a:last-child {
-      border-bottom: none;
-    }
-    .nav-menu a:hover {
-      background-color: #f0f0f0;
-    }
-    .content {
-      width: 90%;
-      max-width: 350px;
-      text-align: center;
-      margin-top: 20px;
-    }
-    .box {
-      border: 1px solid #aaa;
-      padding: 15px;
-      border-radius: 10px;
-      background-color: #D9E2EC;
-      margin-bottom: 20px;
-    }
-    .button-group button {
-      margin: 5px;
-      padding: 8px 20px;
-      border: 1px solid #333;
-      border-radius: 5px;
-      cursor: pointer;
-      background-color: #fff;
-    }
-    .button-group .active {
-      background-color: #4A90E2;
-      color: #fff;
-    }
-    .theme-button {
-      width: 100%;
-      padding: 10px 0;
-      margin: 5px 0;
-      border-radius: 5px;
-    }
-    .light-btn { background-color: #D3D3D3; }
-    .dark-btn { background-color: #000; color: #fff; }
-    .custom-font-input {
-      margin-top: 10px;
-    }
+   
   </style>
 </head>
 <body>
-  <div class="header">
-    {user} {Administrator}
-    <div class="nav-icon" onclick="toggleMenu()">☰</div>
-    <div class="nav-menu" id="navMenu">
-      <a href="Homepage.html">Home</a>
-      <a href="Booking.html">Equipment Booking</a>
-      <a href="Calendar.html">Calendar</a>
-      <a href="Accessibility">Accessibility</a>
-      <a href="Admin">Admin</a>
-      <a href="Sign">Sign Out</a>
+    <nav class="topBar">
+        <img class="topBarLogo" src="media/logo.png" /><img
+        
+        />
+        <p class="navBarTextT">{user}</p>
+        <p class="navBarTextB">Administrator</p>
+        <div class="menu">
+            <button class="menu-button">☰</button>
+            <div class="dropdown">
+              <a href="#">Home</a>
+              <a href="#">Equipment Booking</a>
+              <a href="#">Calendar</a>
+              <a href="#">Accessibility</a>
+              <a href="#">Admin</a>
+              <a href="#">Sign Out</a>
+            </div>
+          </div>
+        </div>
+    </nav>
+
+
+    <div class="title">
+        <h1>Easy Equipment</h1>
+        <img class="centerLogo" src="media/logo.png" />
     </div>
+  
+  <div class="container">
+    <h1>Services</h1>
+    <button class="button google">Sign in with Google</button><br>
+    <button class="button microsoft">Sign in with Microsoft</button><br>
+    <button class="button secondary">Sign-In with ID</button><br>
+    <button class="button secondary">Create Account</button>
   </div>
-  <div class="content">
-    <div class="box">
-      <h2>ACCESSIBILITY</h2>
-      <h3>Font Size</h3>
-      <div class="button-group">
-        <button onclick="changeFontSize(14)">Small (14)</button>
-        <button onclick="changeFontSize(20)" class="active">Standard (20)</button>
-        <button onclick="changeFontSize(32)">Large (32)</button>
-      </div>
-      <div class="custom-font-input">
-        <input type="number" id="customSize" placeholder="Enter custom font size" style="width: 70%; padding: 5px;" />
-        <button onclick="applyCustomSize()" style="padding: 5px 10px;">Set</button>
-      </div>
-    </div>
-    <div class="box">
-      <h3>Theme</h3>
-      <button class="theme-button light-btn" onclick="setTheme('light')">Light</button>
-      <button class="theme-button dark-btn" onclick="setTheme('dark')">Dark</button>
-    </div>
-  </div>
-  <script>
-    function toggleMenu() {
-      const menu = document.getElementById("navMenu");
-      menu.style.display = menu.style.display === "block" ? "none" : "block";
-    }
-
-    const buttons = document.querySelectorAll(".button-group button");
-    buttons.forEach(button => {
-      button.addEventListener("click", () => {
-        buttons.forEach(btn => btn.classList.remove("active"));
-        button.classList.add("active");
-      });
-    });
-
-    function changeFontSize(size) {
-      document.body.style.fontSize = size + "px";
-    }
-
-    function applyCustomSize() {
-      const input = document.getElementById("customSize");
-      const size = parseInt(input.value);
-      if (!isNaN(size) && size > 0) {
-        document.body.style.fontSize = size + "px";
-        buttons.forEach(btn => btn.classList.remove("active")); // Remove active class from preset buttons
-      } else {
-        alert("Please enter a valid number greater than 0");
-      }
-    }
-
-    function setTheme(theme) {
-      if (theme === 'light') {
-        document.body.style.background = "linear-gradient(to bottom, #7babeb, #E6ECF0)";
-        document.querySelector('.header').style.backgroundColor = "#789";
-        document.getElementById("navMenu").style.backgroundColor = "#fff";
-        document.querySelectorAll(".nav-menu a").forEach(link => {
-          link.style.color = "#333";
-        });
-        document.querySelectorAll(".box").forEach(box => {
-          box.style.backgroundColor = "#D9E2EC";
-          box.style.color = "#000";
-        });
-      } else if (theme === 'dark') {
-        document.body.style.background = "linear-gradient(to bottom, #000410, #223142)";
-        document.querySelector('.header').style.backgroundColor = "#001f3f";
-        document.getElementById("navMenu").style.backgroundColor = "#223142";
-        document.querySelectorAll(".nav-menu a").forEach(link => {
-          link.style.color = "#fff";
-        });
-        document.querySelectorAll(".box").forEach(box => {
-          box.style.backgroundColor = "#2c3e50";
-          box.style.color = "#fff";
-        });
-      }
-    }
-  </script>
 </body>
 </html>
