@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Easy Equipment - Home</title>
+    <link rel="icon" href="media/logo.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <nav class="topBar">
+      <img class="topBarLogo" src="media/logo.png" /><img />
+      <p class="navBarTextT">{user}</p>
+      <p class="navBarTextB">Administrator</p>
+      <div class="menu">
+        <button class="menu-button">☰</button>
+        <div class="dropdown">
+          <a href="/home">Home</a>
+          <a href="/bookings">Equipment Booking</a>
+          <a href="/calendar">Calendar</a>
+          <a href="/settings">Accessibility</a>
+          <a href="#">Admin</a>
+          <a href="/">Sign Out</a>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <h1>Please Enter The following:</h1>
+      <br />
+
+      <form action="">
+        <label for="Equipment">Choose an Equipment:</label>
+        <select id="Equipment" name="Equipment">
+          <option value="Laptop">Laptop</option>
+          <option value="Desktop">Desktop</option>
+          <option value="Monitor">Monitor</option>
+          <option value="Tablet">Tablet</option>
+          <option value="Switches">Switches</option>
+          <option value="Routers">Routers</option>
+          <option value="Raspberry Pi's">Raspberry Pi's</option>
+          <option value="Memory Stick">Memory Stick</option>
+        </select>
+      </form>
+      <br />
+
+      <form action="">
+        <label for="date"></label>
+        <input type="date" id="date" name="date" />
+        <label for="appt"></label>
+        <input type="time" id="appt" name="appt" />
+      </form>
+      <br />
+      <form action="">
+        <input type="submit" />
+      </form>
+    </div>
+  </body>
+</html>
