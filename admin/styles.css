@@ -1,0 +1,151 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.navBarTextT {
+  position: absolute;
+  height: 3vh;
+  line-height: 3vh;
+  top: 2vh;
+  right: 10vh;
+  font-size: 2vh;
+}
+
+.navBarTextB {
+  position: absolute;
+  height: 3vh;
+  line-height: 3vh;
+  top: 5vh;
+  right: 10vh;
+  font-size: 2vh;
+}
+
+.topBar {
+  background-color: rgb(103, 129, 150);
+  height: 10vh;
+  width: 100vw;
+  position: sticky;
+}
+
+.topBarLogo {
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  margin-left: 1vw;
+  position: sticky;
+  height: 8vh;
+}
+
+.bugerButton {
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  position: sticky;
+  left: 99vh;
+  height: 8vh;
+}
+
+.menu {
+  position: absolute;
+  top: 2vh;
+  left: 81.5vw;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 10vw;
+  cursor: pointer;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #f1f1f1;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  min-width: 200px;
+  z-index: 1;
+}
+
+.dropdown a {
+  color: black;
+  padding: 10px 20px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown a:hover {
+  background-color: #ddd;
+}
+
+.menu:hover .dropdown {
+  display: block;
+}
+
+/* Admin Panel Title */
+h1 {
+  font-size: 3vh;
+  margin-top: 3vh; /* Pushed down to avoid navbar overlap */
+  color: black;
+  text-align: center;
+}
+
+/* Equipment Availability */
+h2 {
+  font-size: 3vh;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+  margin-left: 11vh;
+  color: white;
+}
+
+/* Equipment Availability Section */
+.equipment-section {
+  background: #3f5b77;
+  color: white;
+  padding: 20px;
+  margin: 20px auto;
+  width: 85%;
+  border-radius: 5px;
+  font-size: 2vh;
+  text-align: left;
+}
+
+/* Edit Text */
+.edit-text {
+  font-size: 2vh;
+  text-align: center;
+  margin: 10px 0;
+  margin-left: 30px;
+  font-weight: bold;
+}
+
+/* Equipment List */
+.equipment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Equipment Items */
+.equipment-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 2vh;
+  padding: 60px 15px;
+}
+
+/* Mobile Responsive */
+@media only screen and (max-width: 600px) {
+  .equipment-section {
+    width: 90%;
+  }
+
+  .equipment-item {
+    font-size: 1.8vh;
+  }
+}
